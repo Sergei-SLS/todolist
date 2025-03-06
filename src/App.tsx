@@ -1,33 +1,31 @@
 import './App.css'
+import {TodoListItem} from "./TodoListItem.tsx";
+import {Fragment} from "react";
 
-function App() {
-  return (
-      <div className="app">
-        <div>
-          <h3>What to learn</h3>
-          <div>
-            <input/>
-            <button>+</button>
-          </div>
-          <ul>
-            <li>
-              <input type="checkbox" checked={true}/> <span>HTML&CSS</span>
-            </li>
-            <li>
-              <input type="checkbox" checked={true}/> <span>JS</span>
-            </li>
-            <li>
-              <input type="checkbox" checked={false}/> <span>React</span>
-            </li>
-          </ul>
-          <div>
-            <button>All</button>
-            <button>Active</button>
-            <button>Completed</button>
-          </div>
-        </div>
-      </div>
-  )
+export type Task = {
+    id: number
+    title: string
+    isDone: boolean
 }
 
-export default App
+export const App = () => {
+    const tasks1: Task[] = [
+        {id: 1, title: 'HTML&CSS', isDone: true},
+        {id: 2, title: 'JS', isDone: true},
+        {id: 3, title: 'ReactJS', isDone: false},
+        {id: 4, title: 'Redux', isDone: false},
+        {id: 5, title: 'TypeScript', isDone: false},
+        {id: 6, title: 'RTK query', isDone: false},
+    ]
+
+    const tasks2: Task[] = [] /*Удалить перед вторым уроком*/
+    return (
+        <Fragment>
+            <div className="app">
+                <TodoListItem title='What to learn' tasks={tasks1} date='06.01.2025'/>
+                <TodoListItem title='Song' tasks={tasks2}/> {/*Удалить перед вторым уроком*/}
+            </div>
+        </Fragment>
+
+)
+}
