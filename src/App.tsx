@@ -1,9 +1,10 @@
 import './App.css'
 import {TodoListItem} from "./TodoListItem.tsx";
 import {Fragment, useState} from "react";
+import {v1} from "uuid";
 
 export type Task = {
-    id: number
+    id: string
     title: string
     isDone: boolean
 }
@@ -12,15 +13,15 @@ export type FilterValues = 'all' | 'active' | 'completed'
 
 export const App = () => {
     const [tasks, setTasks] = useState<Task[]> ([
-        {id: 1, title: 'HTML&CSS', isDone: true},
-        {id: 2, title: 'JS', isDone: true},
-        {id: 3, title: 'ReactJS', isDone: false},
-        {id: 4, title: 'Redux', isDone: false},
-        {id: 5, title: 'TypeScript', isDone: false},
-        {id: 6, title: 'RTK query', isDone: false},
+        {id: v1(), title: 'HTML&CSS', isDone: true},
+        {id: v1(), title: 'JS', isDone: true},
+        {id: v1(), title: 'ReactJS', isDone: false},
+        {id: v1(), title: 'Redux', isDone: false},
+        {id: v1(), title: 'TypeScript', isDone: false},
+        {id: v1(), title: 'RTK query', isDone: false},
     ])
 
-    const deleteTask = (taskId: number) => {
+    const deleteTask = (taskId: string) => {
         const filteredTask = tasks.filter(task => {
             return task.id !== taskId
         })
@@ -41,6 +42,12 @@ export const App = () => {
         filteredTasks = tasks.filter(task => task.isDone)
     }
 
+    const createTask = (title: string) => {
+        const newTask = {id: v1(), title, isDone: false}
+        const newTasks = [newTask, ...tasks]
+        setTasks(newTasks)
+    }
+
     return (
         <Fragment>
             <div className="app">
@@ -48,7 +55,9 @@ export const App = () => {
                               tasks={filteredTasks}
                               date='06.01.2025'
                               deleteTask={deleteTask}
-                              changeFilter={changeFilter}/>
+                              changeFilter={changeFilter}
+                              createTask={createTask}
+                />
             </div>
         </Fragment>
 )
