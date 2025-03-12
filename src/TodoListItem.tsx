@@ -34,6 +34,7 @@ export const TodoListItem = ({title, tasks, date, deleteTask, changeFilter, crea
             <h3>{title}</h3>
             <div>
                 <input value={taskTitle}
+                       placeholder={'Write new task'}
                        onChange={changeTaskTitleHandler}
                        onKeyDown={createTaskOnEnterHandler}/>
                 <Button title={'+'} onClick={createTaskHandler}/>
