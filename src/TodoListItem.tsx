@@ -14,16 +14,21 @@ type Props = {
 
 export const TodoListItem = ({title, tasks, date, deleteTask, changeFilter, createTask, changeTaskStatus}: Props) => {
     const [taskTitle, setTaskTitle] = useState('')
+    const [error, setError] = useState<string | null>(null)
 
     const createTaskHandler = () => {
         const trimmedTitle = taskTitle.trim()
-        if (trimmedTitle !== '')
-        createTask(trimmedTitle)
+        if (trimmedTitle !== '') {
+            createTask(trimmedTitle)
         setTaskTitle('')
+        } else {
+        setError('Title is required')
+        }
     }
 
     const changeTaskTitleHandler = (event: ChangeEvent<HTMLInputElement>) => {
         setTaskTitle(event.currentTarget.value)
+        setError(null)
     }
 
     const createTaskOnEnterHandler = (event: React.KeyboardEvent<HTMLInputElement>) => {
@@ -37,11 +42,12 @@ export const TodoListItem = ({title, tasks, date, deleteTask, changeFilter, crea
         <div>
             <h3>{title}</h3>
             <div>
-                <input value={taskTitle}
+                <input className={error ? 'error' : ''} value={taskTitle}
                        placeholder={'Write new task'}
                        onChange={changeTaskTitleHandler}
                        onKeyDown={createTaskOnEnterHandler}/>
                 <Button title={'+'} onClick={createTaskHandler}/>
+                {error && <div className={'error-message'}>{error}</div>}
             </div>
             {tasks.length === 0 ? (
                 <p>Тасок нет</p>
