@@ -11,6 +11,7 @@ export type Task = {
 
 export type FilterValues = 'all' | 'active' | 'completed'
 
+
 export const App = () => {
     const [tasks, setTasks] = useState<Task[]> ([
         {id: v1(), title: 'HTML&CSS', isDone: true},
@@ -48,6 +49,11 @@ export const App = () => {
         setTasks(newTasks)
     }
 
+    const changeTaskStatus = (taskId: string, isDone: boolean) => {
+        const newState = tasks.map(task => task.id == taskId ? {...task, isDone} : task)
+        setTasks(newState)
+    }
+
     return (
         <Fragment>
             <div className="app">
@@ -57,6 +63,7 @@ export const App = () => {
                               deleteTask={deleteTask}
                               changeFilter={changeFilter}
                               createTask={createTask}
+                              changeTaskStatus={changeTaskStatus}
                 />
             </div>
         </Fragment>
