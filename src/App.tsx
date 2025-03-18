@@ -60,6 +60,7 @@ export const App = () => {
                 <TodoListItem title='What to learn'
                               tasks={filteredTasks}
                               date='06.01.2025'
+                              filter={filter}
                               deleteTask={deleteTask}
                               changeFilter={changeFilter}
                               createTask={createTask}
