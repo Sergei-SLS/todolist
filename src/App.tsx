@@ -11,16 +11,28 @@ export type Task = {
 
 export type FilterValues = 'all' | 'active' | 'completed'
 
+export type Todolist = {
+    id: string
+    title: string
+    filter: FilterValues
+}
 
 export const App = () => {
-    const [tasks, setTasks] = useState<Task[]> ([
-        {id: v1(), title: 'HTML&CSS', isDone: true},
-        {id: v1(), title: 'JS', isDone: true},
-        {id: v1(), title: 'ReactJS', isDone: false},
-        {id: v1(), title: 'Redux', isDone: false},
-        {id: v1(), title: 'TypeScript', isDone: false},
-        {id: v1(), title: 'RTK query', isDone: false},
+    const[todolists, setTodolists] = useState<Todolist[]>([
+        {id: v1(), title: 'What to learn', filter: 'all'},
+        {id: v1(), title: 'What to buy', filter: 'all'},
     ])
+
+
+// export const App = () => {
+//     const [tasks, setTasks] = useState<Task[]> ([
+//         {id: v1(), title: 'HTML&CSS', isDone: true},
+//         {id: v1(), title: 'JS', isDone: true},
+//         {id: v1(), title: 'ReactJS', isDone: false},
+//         {id: v1(), title: 'Redux', isDone: false},
+//         {id: v1(), title: 'TypeScript', isDone: false},
+//         {id: v1(), title: 'RTK query', isDone: false},
+//     ])
 
     const deleteTask = (taskId: string) => {
         const filteredTask = tasks.filter(task => {
@@ -57,15 +69,21 @@ export const App = () => {
     return (
         <Fragment>
             <div className="app">
-                <TodoListItem title='What to learn'
-                              tasks={filteredTasks}
-                              date='06.01.2025'
-                              filter={filter}
-                              deleteTask={deleteTask}
-                              changeFilter={changeFilter}
-                              createTask={createTask}
-                              changeTaskStatus={changeTaskStatus}
-                />
+                {todolists.map(todolist => {
+                    return (
+                        <TodoListItem key={todolist.id}
+                                      todolist={todolist}
+                                      tasks={filteredTasks}
+
+                                      deleteTask={deleteTask}
+                                      changeFilter={changeFilter}
+                                      createTask={createTask}
+                                      changeTaskStatus={changeTaskStatus}
+                                      date='06.03.2025'
+                        />
+                    )
+                })}
+
             </div>
         </Fragment>
 )
