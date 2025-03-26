@@ -6,7 +6,7 @@ type Props = {
     todolist: Todolist
     tasks: Task[]
     date?: string
-    deleteTask: (taskId: string) => void
+    deleteTask: (todolistId: string, taskId: string) => void
     changeFilter: (todolistId: string, filter: FilterValues) => void
     createTask: (title: string) => void
     changeTaskStatus: (taskId: string, isDone: boolean) => void
@@ -46,6 +46,9 @@ export const TodoListItem = ({todolist:{id, title, filter},
     const changeFilterHandler = (filter: FilterValues) => {
         changeFilter(id,filter)
     }
+    // const deleteTaskHandler = (taskId: string) => {
+    //     deleteTask(id, taskId)
+    // }
 
     return (
         <div>
