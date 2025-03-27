@@ -8,14 +8,16 @@ type Props = {
     date?: string
     deleteTask: (todolistId: string, taskId: string) => void
     changeFilter: (todolistId: string, filter: FilterValues) => void
-    createTask: (title: string) => void
-    changeTaskStatus: (taskId: string, isDone: boolean) => void
+    createTask: (todolistId: string, title: string) => void
+    changeTaskStatus: (todolistId: string, taskId: string, isDone: boolean) => void
+    deleteTodolist: (todolistId: string) => void
 }
 
 export const TodoListItem = ({todolist:{id, title, filter},
                                  tasks,
                                  date,
                                  deleteTask,
+                                 deleteTodolist,
                                  changeFilter,
                                  createTask,
                                  changeTaskStatus}: Props) => {
@@ -25,7 +27,7 @@ export const TodoListItem = ({todolist:{id, title, filter},
     const createTaskHandler = () => {
         const trimmedTitle = taskTitle.trim()
         if (trimmedTitle !== '') {
-            createTask(trimmedTitle)
+            createTask(id,trimmedTitle)
         setTaskTitle('')
         } else {
         setError('Title is required')
@@ -50,9 +52,16 @@ export const TodoListItem = ({todolist:{id, title, filter},
     //     deleteTask(id, taskId)
     // }
 
+    const deleteTodolistHandler = () => {
+        deleteTodolist(id)
+    }
+
     return (
         <div>
-            <h3>{title}</h3>
+            <h3>
+                {title}
+                <Button title={'❌'} onClick={deleteTodolistHandler}/>
+            </h3>
             <div>
                 <input className={error ? 'error' : ''} value={taskTitle}
                        placeholder={'Write new task'}
@@ -67,12 +76,12 @@ export const TodoListItem = ({todolist:{id, title, filter},
                 <ul>
                     {tasks.map(task => {
                         const deleteTaskHandler = () => {
-                            deleteTask(task.id, )
+                            deleteTask(id, task.id)
                         }
 
                         const changeTaskStatusHandler = (e: ChangeEvent<HTMLInputElement>) => {
                             const newStatusValue = e.currentTarget.checked
-                            changeTaskStatus(task.id, newStatusValue)
+                            changeTaskStatus(id, task.id, newStatusValue)
                         }
 
                         return (
