@@ -67,7 +67,7 @@ export const TodoListItem = ({todolist:{id, title, filter},
                 <ul>
                     {tasks.map(task => {
                         const deleteTaskHandler = () => {
-                            deleteTask(task.id)
+                            deleteTask(task.id, )
                         }
 
                         const changeTaskStatusHandler = (e: ChangeEvent<HTMLInputElement>) => {
