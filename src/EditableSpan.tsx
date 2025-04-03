@@ -1,4 +1,4 @@
-import {ChangeEvent, useState} from "react";
+import {ChangeEvent, KeyboardEvent, useState} from "react";
 
 type Props = {
     value: string
@@ -16,6 +16,12 @@ export const EditableSpan = ({value, onChange}: Props) => {
         setTitle(event.currentTarget.value)
     }
 
+    const onKeyDownTodolistHandler = (event: KeyboardEvent<HTMLInputElement>) => {
+        if (event.key === 'Enter') {
+            editHandler();
+        }
+    }
+
     return (
         <>
             {isEditMode
@@ -24,6 +30,7 @@ export const EditableSpan = ({value, onChange}: Props) => {
                     value={title}
                     autoFocus
                     onBlur={editHandler}
+                    onKeyDown={onKeyDownTodolistHandler}
                 />
                 : <span onDoubleClick={editHandler}>{value}</span>}
         </>

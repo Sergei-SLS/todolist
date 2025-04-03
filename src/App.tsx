@@ -77,6 +77,10 @@ export const App = () => {
         setTasks({...tasks})
     }
 
+    const changeTodolistTitle = (todolistId: string, title: string) => {
+        setTodolists(todolists.map(todolist => todolist.id === todolistId ? { ...todolist, title}: todolist))
+    }
+
     return (
         <Fragment>
             <div className="app">
@@ -101,6 +105,7 @@ export const App = () => {
                                       changeTaskStatus={changeTaskStatus}
                                       changeTaskTitle={changeTaskTitle}
                                       deleteTodolist={deleteTodolist}
+                                      changeTodolistTitle={changeTodolistTitle}
                                       date='06.03.2025'
                         />
                     )
