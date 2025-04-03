@@ -2,6 +2,7 @@ import {FilterValues, Task, Todolist} from "./App.tsx";
 import {Button} from "./Button.tsx";
 import {ChangeEvent} from "react";
 import {CreateItemForm} from "./CreateItemForm.tsx";
+import {EditableSpan} from "./EditableSpan.tsx";
 
 type Props = {
     todolist: Todolist
@@ -11,6 +12,7 @@ type Props = {
     changeFilter: (todolistId: string, filter: FilterValues) => void
     createTask: (todolistId: string, title: string) => void
     changeTaskStatus: (todolistId: string, taskId: string, isDone: boolean) => void
+    changeTaskTitle: (todolistId: string, taskId: string, title: string) => void
     deleteTodolist: (todolistId: string) => void
 }
 
@@ -21,7 +23,8 @@ export const TodoListItem = ({todolist:{id, title, filter},
                                  deleteTodolist,
                                  changeFilter,
                                  createTask,
-                                 changeTaskStatus}: Props) => {
+                                 changeTaskStatus,
+                                 changeTaskTitle}: Props) => {
 
     const createTaskHandler = (title: string) => {
         createTask(id, title)
@@ -57,12 +60,17 @@ export const TodoListItem = ({todolist:{id, title, filter},
                             changeTaskStatus(id, task.id, newStatusValue)
                         }
 
+                        const changeTaskTitleHandler = (title: string) => {
+                            changeTaskTitle(id, task.id, title)
+                        }
+
                         return (
                             <li key={task.id} className={task.isDone ? 'is-done' : ''}>
                                 <input type="checkbox"
                                        checked={task.isDone}
                                        onChange={changeTaskStatusHandler}/>
-                                <span>{task.title}</span>
+                                <EditableSpan value={task.title}
+                                              onChange={changeTaskTitleHandler}/>
                                 <Button title={'❌'} onClick={deleteTaskHandler}/>
                             </li>
                         )

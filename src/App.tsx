@@ -59,6 +59,10 @@ export const App = () => {
         setTasks({...tasks, [todolistId]: [...tasks[todolistId].map(task => task.id === taskId ? {...task, isDone}: task)]})
     }
 
+    const changeTaskTitle = (todolistId: string, taskId: string, title: string) => {
+        setTasks({...tasks, [todolistId]: tasks[todolistId].map(task => task.id === taskId ? {...task, title}: task)})
+    }
+
     const createTodolist = (title: string) => {
         const todolistId = v1()
         const newTodolist: Todolist = {id: todolistId, title, filter: 'all'}
@@ -95,6 +99,7 @@ export const App = () => {
                                       changeFilter={changeFilter}
                                       createTask={createTask}
                                       changeTaskStatus={changeTaskStatus}
+                                      changeTaskTitle={changeTaskTitle}
                                       deleteTodolist={deleteTodolist}
                                       date='06.03.2025'
                         />
