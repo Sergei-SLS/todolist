@@ -2,6 +2,7 @@ import './App.css'
 import {TodoListItem} from "./TodoListItem.tsx";
 import {Fragment, useState} from "react";
 import {v1} from "uuid";
+import {CreateItemForm} from "./CreateItemForm.tsx";
 
 export type Task = {
     id: string
@@ -58,6 +59,13 @@ export const App = () => {
         setTasks({...tasks, [todolistId]: [...tasks[todolistId].map(task => task.id === taskId ? {...task, isDone}: task)]})
     }
 
+    const createTodolist = (title: string) => {
+        const todolistId = v1()
+        const newTodolist: Todolist = {id: todolistId, title, filter: 'all'}
+        setTodolists([newTodolist, ...todolists])
+        setTasks({ ...tasks, [todolistId]: []})
+    }
+
     const deleteTodolist = (todolistId: string) => {
         setTodolists(todolists.filter(todolist => todolist.id !== todolistId))
         // setTodolists((prevState) => prevState.filter(todolist => todolist.id !== todolistId)) prevStаte - предыдущее значение
@@ -68,8 +76,10 @@ export const App = () => {
     return (
         <Fragment>
             <div className="app">
+                <CreateItemForm onCreateItem={createTodolist}/>
                 {todolists.map(todolist => {
-                    let filteredTasks = tasks[todolist.id]
+                    const todolistTasks = tasks[todolist.id]
+                    let filteredTasks = todolistTasks
                     if (todolist.filter === 'active') {
                         filteredTasks = tasks[todolist.id].filter(task => !task.isDone)
                     }
