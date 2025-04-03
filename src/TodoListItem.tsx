@@ -1,6 +1,7 @@
 import {FilterValues, Task, Todolist} from "./App.tsx";
 import {Button} from "./Button.tsx";
-import {ChangeEvent, useState} from "react";
+import {ChangeEvent} from "react";
+import {CreateItemForm} from "./CreateItemForm.tsx";
 
 type Props = {
     todolist: Todolist
@@ -21,36 +22,14 @@ export const TodoListItem = ({todolist:{id, title, filter},
                                  changeFilter,
                                  createTask,
                                  changeTaskStatus}: Props) => {
-    const [taskTitle, setTaskTitle] = useState('')
-    const [error, setError] = useState<string | null>(null)
 
-    const createTaskHandler = () => {
-        const trimmedTitle = taskTitle.trim()
-        if (trimmedTitle !== '') {
-            createTask(id,trimmedTitle)
-        setTaskTitle('')
-        } else {
-        setError('Title is required')
-        }
-    }
-
-    const changeTaskTitleHandler = (event: ChangeEvent<HTMLInputElement>) => {
-        setTaskTitle(event.currentTarget.value)
-        setError(null)
-    }
-
-    const createTaskOnEnterHandler = (event: React.KeyboardEvent<HTMLInputElement>) => {
-        if (event.key === 'Enter') {
-            createTaskHandler()
-        }
+    const createTaskHandler = (title: string) => {
+        createTask(id, title)
     }
 
     const changeFilterHandler = (filter: FilterValues) => {
         changeFilter(id,filter)
     }
-    // const deleteTaskHandler = (taskId: string) => {
-    //     deleteTask(id, taskId)
-    // }
 
     const deleteTodolistHandler = () => {
         deleteTodolist(id)
@@ -59,17 +38,11 @@ export const TodoListItem = ({todolist:{id, title, filter},
     return (
         <div>
             <h3>
+                <CreateItemForm onCreateItem={createTaskHandler}/>
                 {title}
                 <Button title={'❌'} onClick={deleteTodolistHandler}/>
             </h3>
-            <div>
-                <input className={error ? 'error' : ''} value={taskTitle}
-                       placeholder={'Write new task'}
-                       onChange={changeTaskTitleHandler}
-                       onKeyDown={createTaskOnEnterHandler}/>
-                <Button title={'+'} onClick={createTaskHandler}/>
-                {error && <div className={'error-message'}>{error}</div>}
-            </div>
+
             {tasks.length === 0 ? (
                 <p>Тасок нет</p>
             ) : (
