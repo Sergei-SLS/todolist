@@ -95,7 +95,7 @@ export const App = () => {
     return (
         <Fragment>
             <div className="app">
-                <AppBar position="static">
+                <AppBar position="static" sx={{mb: '30px'}}>
                     <Toolbar>
                         <Container maxWidth={'lg'}>
                             <IconButton color="inherit">
@@ -106,7 +106,7 @@ export const App = () => {
                     </Toolbar>
                 </AppBar>
                 <Container maxWidth={'lg'}>
-                    <Grid container>
+                    <Grid container sx={{mb: '30px'}}>
                         <CreateItemForm onCreateItem={createTodolist}/>
                     </Grid>
                     <Grid container spacing={4}>
@@ -121,7 +121,7 @@ export const App = () => {
                             }
                             return (
                                 <Grid key={todolist.id}>
-                                    <Paper elevation={3}>
+                                    <Paper elevation={4} sx={{ p: '0 20px 20px 20px' }}>
                                     <TodoListItem key={todolist.id}
                                                   todolist={todolist}
                                                   tasks={filteredTasks}
