@@ -6,11 +6,17 @@ import {CreateItemForm} from "./CreateItemForm.tsx";
 import AppBar from '@mui/material/AppBar';
 import Toolbar from '@mui/material/Toolbar';
 import IconButton from '@mui/material/IconButton';
-import Button from '@mui/material/Button';
 import MenuIcon from '@mui/icons-material/Menu'
 import Container from '@mui/material/Container'
 import Grid from '@mui/material/Grid'
 import Paper from '@mui/material/Paper'
+import {containerSx} from "./TodolistItem.styles.ts";
+import {NavButton} from "./NavButton.ts";
+import { createTheme, ThemeProvider } from '@mui/material/styles'
+import Switch from '@mui/material/Switch'
+import CssBaseline from '@mui/material/CssBaseline'
+
+type ThemeMode = 'light' | 'dark'
 
 export type Task = {
     id: string
@@ -48,6 +54,20 @@ export const App = () => {
         ]
     })
 
+    const [themeMode, setThemeMode] = useState<ThemeMode>('light')
+
+    const theme = createTheme({
+        palette: {
+            mode: themeMode,
+            primary: {
+                main: '#087EA4',
+            },
+        },
+    })
+
+    const changeMode = () => {
+        setThemeMode(themeMode === 'light' ? 'dark' : 'light')
+    }
 
     const deleteTask = (todolistId: string, taskId: string) => {
         setTasks({...tasks, [todolistId]: tasks[todolistId].filter(task => task.id !== taskId)})
@@ -95,13 +115,18 @@ export const App = () => {
     return (
         <Fragment>
             <div className="app">
+                <ThemeProvider theme={theme}>
+                    <CssBaseline />
                 <AppBar position="static" sx={{mb: '30px'}}>
-                    <Toolbar>
-                        <Container maxWidth={'lg'}>
+                    <Toolbar sx={{ display: 'flex', justifyContent: 'space-between' }}>
+                        <Container maxWidth={'lg'} sx={containerSx}>
                             <IconButton color="inherit">
                                 <MenuIcon/>
                             </IconButton>
-                            <Button color="inherit">Sign in</Button>
+                            <NavButton >Sign in</NavButton>
+                            <NavButton >Sign up</NavButton>
+                            <NavButton background={theme.palette.primary.dark}>Faq</NavButton>
+                            <Switch color={'default'} onChange={changeMode} />
                         </Container>
                     </Toolbar>
                 </AppBar>
@@ -141,6 +166,7 @@ export const App = () => {
                         })}
                     </Grid>
                 </Container>
+                </ThemeProvider>
             </div>
         </Fragment>
     )
