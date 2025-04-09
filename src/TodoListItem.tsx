@@ -5,6 +5,9 @@ import {EditableSpan} from "./EditableSpan.tsx";
 import IconButton from '@mui/material/IconButton'
 import DeleteIcon from '@mui/icons-material/Delete'
 import Button from "@mui/material/Button";
+import Checkbox from '@mui/material/Checkbox';
+import List from "@mui/material/List";
+import ListItem from "@mui/material/ListItem";
 // import {Button} from "./Button.tsx";
 
 type Props = {
@@ -49,21 +52,21 @@ export const TodoListItem = ({
         changeTodolistTitle(id, title)
     }
 
-
     return (
         <div>
+            <CreateItemForm onCreateItem={createTaskHandler}/>
             <h3>
-                <CreateItemForm onCreateItem={createTaskHandler}/>
                 <EditableSpan value={title} onChange={changeTodolistTitleHandler}/>
             <IconButton onClick={deleteTodolistHandler}>
                 <DeleteIcon/>
             </IconButton>
             </h3>
+
             {
                 tasks.length === 0 ? (
                     <p>Тасок нет</p>
                 ) : (
-                    <ul>
+                    <List>
                         {tasks.map(task => {
                             const deleteTaskHandler = () => {
                                 deleteTask(id, task.id)
@@ -79,8 +82,8 @@ export const TodoListItem = ({
                             }
 
                             return (
-                                <li key={task.id} className={task.isDone ? 'is-done' : ''}>
-                                    <input type="checkbox"
+                                <ListItem key={task.id} className={task.isDone ? 'is-done' : ''}>
+                                    <Checkbox
                                            checked={task.isDone}
                                            onChange={changeTaskStatusHandler}/>
                                     <EditableSpan value={task.title}
@@ -88,10 +91,10 @@ export const TodoListItem = ({
                                     <IconButton onClick={deleteTaskHandler}>
                                         <DeleteIcon/>
                                     </IconButton>
-                                </li>
+                                </ListItem>
                             )
                         })}
-                    </ul>
+                    </List>
                 )
             }
 
