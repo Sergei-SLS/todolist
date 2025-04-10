@@ -118,7 +118,7 @@ export const TodoListItem = ({
                     Completed
                 </Button>
             </Box>
-            <div>{date}</div>
+            <div style={{marginTop: '10px'}}>{date}</div>
         </div>
     )
 }
