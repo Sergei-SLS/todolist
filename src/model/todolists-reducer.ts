@@ -1,9 +1,9 @@
-import {FilterValues, Todolist} from "../App.tsx";
+import {Todolist} from "../App.tsx";
 import {v1} from "uuid";
 
 
 
-type Actions = DeleteTodolistAction | CreateTodolistAction
+type Actions = DeleteTodolistAction | CreateTodolistAction | ChangeTodolistAC
 
 const initialState: Todolist[] = []
 
@@ -16,6 +16,9 @@ export const todolistsReducer = (state: Todolist[] = initialState, action: Actio
       case 'create_todolist': {
           const newTodolist: Todolist = {id: action.payload.id, title: action.payload.title, filter: 'all'}
           return [...state, newTodolist]
+      }
+      case 'change_todolistTitle': {
+          return state.map(todolist => todolist.id === action.payload.id ? {...todolist, title: action.payload.title} : todolist)
       }
       default:
           return state
@@ -40,3 +43,9 @@ export const createTodolistAC = (title: string) => {
 }
 
 export type CreateTodolistAction = ReturnType<typeof createTodolistAC>
+
+export const changeTodolistTitleAC = (id: string, title: string) => {
+    return {type: 'change_todolistTitle', payload: {id , title}} as const
+}
+
+export type ChangeTodolistAC = ReturnType<typeof changeTodolistTitleAC>
