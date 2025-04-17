@@ -1,6 +1,6 @@
 import './App.css'
 import {TodoListItem} from "./TodoListItem.tsx";
-import {Fragment, useState} from "react";
+import {Fragment, useReducer, useState} from "react";
 import {v1} from "uuid";
 import {CreateItemForm} from "./CreateItemForm.tsx";
 import AppBar from '@mui/material/AppBar';
@@ -15,6 +15,7 @@ import {NavButton} from "./NavButton.ts";
 import {createTheme, ThemeProvider} from '@mui/material/styles'
 import Switch from '@mui/material/Switch'
 import CssBaseline from '@mui/material/CssBaseline'
+import {changeTodolistTitleAC, createTodolistAC, todolistsReducer} from "./model/todolists-reducer.ts";
 
 type ThemeMode = 'light' | 'dark'
 
@@ -37,12 +38,14 @@ export const App = () => {
     const todolistId1 = v1();
     const todolistId2 = v1();
 
-    const [todolists, setTodolists] = useState<Todolist[]>([
+    const [todolists, dispatchToTodolists] = useReducer(todolistsReducer, [])
+    ([
         {id: todolistId1, title: 'What to learn', filter: 'all', date: ''},
         {id: todolistId2, title: 'What to buy', filter: 'all', date: ''},
     ])
 
-    const [tasks, setTasks] = useState({
+    const [tasks, setTasks] = useState<TasksState>({})
+    ({
         [todolistId1]: [
             {id: v1(), title: 'HTML&CSS', isDone: true},
             {id: v1(), title: 'JS', isDone: true},
@@ -96,10 +99,14 @@ export const App = () => {
     }
 
     const createTodolist = (title: string) => {
-        const todolistId = v1()
-        const newTodolist: Todolist = {id: todolistId, title, filter: 'all', date: getCurrentDate()}
-        setTodolists([newTodolist, ...todolists])
-        setTasks({...tasks, [todolistId]: []})
+        // const todolistId = v1()
+        // const newTodolist: Todolist = {id: todolistId, title, filter: 'all', date: getCurrentDate()}
+        // setTodolists([newTodolist, ...todolists])
+        // setTasks({...tasks, [todolistId]: []})
+
+        const action = createTodolistAC(title)
+        dispatchToTodolists(action)
+        setTasks({...tasks, [action.payload.id]: []})
     }
 
     const deleteTodolist = (todolistId: string) => {
@@ -110,7 +117,8 @@ export const App = () => {
     }
 
     const changeTodolistTitle = (todolistId: string, title: string) => {
-        setTodolists(todolists.map(todolist => todolist.id === todolistId ? {...todolist, title} : todolist))
+        dispatchToTodolists(changeTodolistTitleAC({id: todolistId, title}))
+        // (todolists.map(todolist => todolist.id === todolistId ? {...todolist, title} : todolist))
     }
 
     const getCurrentDate = (): string => {
