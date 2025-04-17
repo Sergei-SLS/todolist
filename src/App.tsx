@@ -25,6 +25,10 @@ export type Task = {
     isDone: boolean
 }
 
+export type TasksState = {
+    [key: string]: Task[]
+}
+
 export type FilterValues = 'all' | 'active' | 'completed'
 
 export type Todolist = {
