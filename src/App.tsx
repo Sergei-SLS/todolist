@@ -42,13 +42,14 @@ export const App = () => {
     const todolistId1 = v1();
     const todolistId2 = v1();
 
-    const [todolists, dispatchToTodolists] = useReducer(todolistsReducer, [])
+
     ([
         {id: todolistId1, title: 'What to learn', filter: 'all', date: ''},
         {id: todolistId2, title: 'What to buy', filter: 'all', date: ''},
     ])
+    const [todolists, dispatchToTodolists] = useReducer(todolistsReducer, [])
 
-    const [tasks, setTasks] = useState<TasksState>({})
+
     ({
         [todolistId1]: [
             {id: v1(), title: 'HTML&CSS', isDone: true},
@@ -61,6 +62,8 @@ export const App = () => {
             {id: v1(), title: 'RTK query', isDone: false},
         ]
     })
+
+    const [tasks, setTasks] = useState<TasksState>({})
 
     const [themeMode, setThemeMode] = useState<ThemeMode>('light')
 
