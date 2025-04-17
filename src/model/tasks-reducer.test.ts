@@ -32,3 +32,16 @@ test('array should be created for new todolist', () => {
     expect(keys.length).toBe(3)
     expect(endState[newKey]).toEqual([])
 })
+
+test('array should be created for new todolist', () => {
+    const endState = tasksReducer(startState, createTodolistAC('New todolist'))
+
+    const keys = Object.keys(endState)
+    const newKey = keys.find(k => k !== 'todolistId1' && k !== 'todolistId2')
+    if (!newKey) {
+        throw Error('New key should be added')
+    }
+
+    expect(keys.length).toBe(3)
+    expect(endState[newKey]).toEqual([])
+})
