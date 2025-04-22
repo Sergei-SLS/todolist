@@ -1,21 +1,35 @@
-import type {TasksState} from '../App'
-import {CreateTodolistAction, DeleteTodolistAction} from "./todolists-reducer.ts";
 
-type Actions = CreateTodolistAction | DeleteTodolistAction
 
-const initialState: TasksState = {}
+export type Action1Type = {
+    type: '1'
+    id: string
+}
 
-export const tasksReducer = (state: TasksState = initialState, action: Actions): TasksState => {
+export type Action2Type = {
+    type: '1'
+    id: string
+}
+
+type ActionType = Action1Type | Action2Type;
+
+
+export const taskReducer = (state: State, action: ActionType): State => {
     switch (action.type) {
-        case 'create_todolist': {
-            return {...state, [action.payload.id]: []}
+        case '1': {
+            return {...state}
         }
-        // case 'delete_todolistdelete_todolist': {
-        //     const newState = {...state}
-        //     delete newState[action.payload.id]
-        //     return newState
-        // }
+        case '2': {
+            return {...state}
+        }
         default:
-            return state
+            throw new Error('Unknown action')
     }
+}
+
+export const action1AC = (todolistId: string): Action1Type => {
+    return { type: '1', id: todolistId }
+}
+
+export const action2AC = (title: string) : Action2Type => {
+    return { type: '2', title: title }
 }
