@@ -1,3 +1,4 @@
+import {TasksState} from "../App.tsx";
 
 
 export type DeleteTaskActionType = {
@@ -6,11 +7,9 @@ export type DeleteTaskActionType = {
     taskId: string
 }
 
-
 type ActionsType = DeleteTaskActionType
 
-
-export const taskReducer = (state: TasksStateType, action: ActionsType): TasksStateType => {
+export const tasksReducer = (state: TasksState, action: ActionsType): TasksState => {
     switch (action.type) {
         case 'DELETE-TASK': {
             const stateCopy = {...state}

@@ -60,7 +60,7 @@ test('property with todolistId should be deleted', () => {
 test('correct task should be deleted', () => {
     const endState = tasksReducer(
         startState,
-        deleteTaskAC({ todolistId: 'todolistId2', taskId: '2' })
+        deleteTaskAC('2', 'todolistId2')
     )
 
     expect(endState).toEqual({
