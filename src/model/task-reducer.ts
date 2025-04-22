@@ -1,35 +1,30 @@
 
 
-export type Action1Type = {
-    type: '1'
-    id: string
+export type DeleteTaskActionType = {
+    type: 'DELETE-TASK'
+    todolistId: string
+    taskId: string
 }
 
-export type Action2Type = {
-    type: '1'
-    id: string
-}
 
-type ActionType = Action1Type | Action2Type;
+type ActionsType = DeleteTaskActionType
 
 
-export const taskReducer = (state: State, action: ActionType): State => {
+export const taskReducer = (state: TasksStateType, action: ActionsType): TasksStateType => {
     switch (action.type) {
-        case '1': {
-            return {...state}
+        case 'DELETE-TASK': {
+            const stateCopy = {...state}
+            const tasks = state[action.todolistId]
+            const filteredTasks = tasks.filter(task => task.id !== action.taskId)
+            stateCopy[action.todolistId] = filteredTasks
+            return stateCopy
         }
-        case '2': {
-            return {...state}
-        }
+
         default:
             throw new Error('Unknown action')
     }
 }
 
-export const action1AC = (todolistId: string): Action1Type => {
-    return { type: '1', id: todolistId }
-}
-
-export const action2AC = (title: string) : Action2Type => {
-    return { type: '2', title: title }
+export const deleteTaskAC = (taskId: string, todolistId: string): DeleteTaskActionType => {
+    return { type: 'DELETE-TASK', todolistId, taskId}
 }
