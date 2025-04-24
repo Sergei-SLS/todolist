@@ -25,6 +25,8 @@ import {
 import {changeTaskStatusAC, changeTaskTitleAC, createTaskAC, deleteTaskAC, tasksReducer} from "../model/tasks-reducer.ts";
 import {useDispatch, useSelector} from "react-redux";
 import { RootState } from './store.ts';
+import {useAppDispatch} from "../common/hooks/useAppDispatch.ts";
+import {useAppSelector} from "../common/hooks/useAppSelector.ts";
 
 type ThemeMode = 'light' | 'dark'
 
@@ -52,10 +54,10 @@ export const App = () => {
     const todolistId1 = v1();
     const todolistId2 = v1();
 
-    const todolists = useSelector<RootState, Todolist[]>(state => state.todolists)
-    const tasks = useSelector<RootState, TasksState>(state => state.tasks)
+    const todolists = useAppSelector(state => state.todolists)
+    const tasks = useAppSelector(state => state.tasks)
 
-    const dispatch = useDispatch()
+    const dispatch = useAppDispatch()
 
     // const [todolists, dispatchToTodolists] = useReducer(todolistsReducer, [])
     // const [tasks, dispatchToTasks] = useReducer(tasksReducer,{})
@@ -85,7 +87,7 @@ export const App = () => {
     }
 
     const deleteTodolist = (todolistId: string) => {
-        dispatch(deleteTodolistAC(todolistId))
+        dispatch(deleteTodolistAC(todolistId))chore: install <library-redux-toolkit>
     }
 
     const changeTodolistTitle = (todolistId: string, title: string) => {
