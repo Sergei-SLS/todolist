@@ -1,8 +1,8 @@
 import './App.css'
-import {TodoListItem} from "./TodoListItem.tsx";
-import {Fragment, useReducer, useState} from "react";
+import {TodoListItem} from "../TodoListItem.tsx";
+import {Fragment, useState} from "react";
 import {v1} from "uuid";
-import {CreateItemForm} from "./CreateItemForm.tsx";
+import {CreateItemForm} from "../CreateItemForm.tsx";
 import AppBar from '@mui/material/AppBar';
 import Toolbar from '@mui/material/Toolbar';
 import IconButton from '@mui/material/IconButton';
@@ -10,8 +10,8 @@ import MenuIcon from '@mui/icons-material/Menu'
 import Container from '@mui/material/Container'
 import Grid from '@mui/material/Grid'
 import Paper from '@mui/material/Paper'
-import {containerSx} from "./TodolistItem.styles.ts";
-import {NavButton} from "./NavButton.ts";
+import {containerSx} from "../TodolistItem.styles.ts";
+import {NavButton} from "../NavButton.ts";
 import {createTheme, ThemeProvider} from '@mui/material/styles'
 import Switch from '@mui/material/Switch'
 import CssBaseline from '@mui/material/CssBaseline'
@@ -21,8 +21,10 @@ import {
     createTodolistAC,
     deleteTodolistAC,
     todolistsReducer
-} from "./model/todolists-reducer.ts";
-import {changeTaskStatusAC, changeTaskTitleAC, createTaskAC, deleteTaskAC, tasksReducer} from "./model/task-reducer.ts";
+} from "../model/todolists-reducer.ts";
+import {changeTaskStatusAC, changeTaskTitleAC, createTaskAC, deleteTaskAC, tasksReducer} from "../model/tasks-reducer.ts";
+import {useDispatch, useSelector} from "react-redux";
+import { RootState } from './store.ts';
 
 type ThemeMode = 'light' | 'dark'
 
@@ -50,9 +52,13 @@ export const App = () => {
     const todolistId1 = v1();
     const todolistId2 = v1();
 
+    const todolists = useSelector<RootState, Todolist[]>(state => state.todolists)
+    const tasks = useSelector<RootState, TasksState>(state => state.tasks)
 
-    const [todolists, dispatchToTodolists] = useReducer(todolistsReducer, [])
-    const [tasks, dispatchToTasks] = useReducer(tasksReducer,{})
+    const dispatch = useDispatch()
+
+    // const [todolists, dispatchToTodolists] = useReducer(todolistsReducer, [])
+    // const [tasks, dispatchToTasks] = useReducer(tasksReducer,{})
 
     const [themeMode, setThemeMode] = useState<ThemeMode>('light')
 
@@ -70,41 +76,36 @@ export const App = () => {
     }
 
     const changeFilter = (todolistId: string, filter: FilterValues) => {
-        dispatchToTodolists(changeTodolistFilterAC({id: todolistId, filter}))
+        dispatch(changeTodolistFilterAC({id: todolistId, filter}))
     }
 
     const createTodolist = (title: string) => {
+        dispatch(createTodolistAC(title))
 
-        const action = createTodolistAC(title)
-        dispatchToTodolists(action)
-        dispatchToTasks(action)
     }
 
     const deleteTodolist = (todolistId: string) => {
-
-        const action = deleteTodolistAC(todolistId)
-        dispatchToTodolists(action)
-        dispatchToTasks(action)
+        dispatch(deleteTodolistAC(todolistId))
     }
 
     const changeTodolistTitle = (todolistId: string, title: string) => {
-        dispatchToTodolists(changeTodolistTitleAC({id: todolistId, title}))
+        dispatch(changeTodolistTitleAC({id: todolistId, title}))
     }
 
     const deleteTask = (todolistId: string, taskId: string) => {
-        dispatchToTasks(deleteTaskAC({todolistId, taskId}))
+        dispatch(deleteTaskAC({todolistId, taskId}))
     }
 
     const createTask = (todolistId: string, title: string) => {
-        dispatchToTasks(createTaskAC({todolistId, title}))
+        dispatch(createTaskAC({todolistId, title}))
     }
 
     const changeTaskStatus = (todolistId: string, taskId: string, isDone: boolean) => {
-        dispatchToTasks(changeTaskStatusAC({todolistId, taskId, isDone}))
+        dispatch(changeTaskStatusAC({todolistId, taskId, isDone}))
     }
 
     const changeTaskTitle = (todolistId: string, taskId: string, title: string) => {
-        dispatchToTasks(changeTaskTitleAC({todolistId, taskId, title}))
+        dispatch(changeTaskTitleAC({todolistId, taskId, title}))
     }
 
 
