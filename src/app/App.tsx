@@ -1,7 +1,6 @@
 import './App.css'
 import {TodoListItem} from "../TodoListItem.tsx";
 import {Fragment, useState} from "react";
-import {v1} from "uuid";
 import {CreateItemForm} from "../CreateItemForm.tsx";
 import AppBar from '@mui/material/AppBar';
 import Toolbar from '@mui/material/Toolbar';
@@ -29,6 +28,7 @@ import {useAppDispatch} from "../common/hooks/useAppDispatch.ts";
 import {useAppSelector} from "../common/hooks/useAppSelector.ts";
 import { selectTodolists } from '../model/todolists-selectors.ts';
 import { selectTasks } from '../model/tasks-selectors.ts';
+import {nanoid} from "@reduxjs/toolkit";
 
 type ThemeMode = 'light' | 'dark'
 
@@ -53,8 +53,8 @@ export type Todolist = {
 }
 
 export const App = () => {
-    const todolistId1 = v1();
-    const todolistId2 = v1();
+    // const todolistId1 = nanoid();
+    // const todolistId2 = nanoid();
 
     const todolists = useAppSelector(selectTodolists)
     const tasks = useAppSelector(selectTasks)
@@ -85,11 +85,10 @@ export const App = () => {
 
     const createTodolist = (title: string) => {
         dispatch(createTodolistAC(title))
-
     }
 
     const deleteTodolist = (todolistId: string) => {
-        dispatch(deleteTodolistAC(todolistId))chore: install <library-redux-toolkit>
+        dispatch(deleteTodolistAC({id: todolistId}))
     }
 
     const changeTodolistTitle = (todolistId: string, title: string) => {
@@ -164,7 +163,7 @@ export const App = () => {
                                                           changeTaskTitle={changeTaskTitle}
                                                           deleteTodolist={deleteTodolist}
                                                           changeTodolistTitle={changeTodolistTitle}
-                                                          date={getCurrentDate}
+                                                          // date={getCurrentDate}
                                             />
                                         </Paper>
                                     </Grid>

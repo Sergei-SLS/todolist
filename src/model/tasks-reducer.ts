@@ -1,10 +1,21 @@
-import {v1} from 'uuid'
+
 import type {Task, TasksState} from '../app/App.tsx'
-import type {CreateTodolistAction, DeleteTodolistAction} from './todolists-reducer'
+import {createTodolistAC, CreateTodolistAction, deleteTodolistAC, DeleteTodolistAction} from './todolists-reducer'
+import {createReducer, nanoid} from "@reduxjs/toolkit";
 
 const initialState: TasksState = {}
 
-export const tasksReducer = (state: TasksState = initialState, action: Actions): TasksState => {
+export const tasksReducer = createReducer(initialState, builder => {
+    builder
+        .addCase(createTodolistAC, (state, action) => {
+            state[action.payload.id] = []
+        })
+        .addCase(deleteTodolistAC, (state, action) => {
+            delete state[action.payload.id]
+        })
+})
+
+export const tasksReducer2 = (state: TasksState = initialState, action: Actions): TasksState => {
     switch (action.type) {
         case 'delete_task': {
             return {
@@ -13,7 +24,7 @@ export const tasksReducer = (state: TasksState = initialState, action: Actions):
             }
         }
         case 'create_task': {
-            const newTask: Task = {title: action.payload.title, isDone: false, id: v1()}
+            const newTask: Task = {title: action.payload.title, isDone: false, id: nanoid()}
             return {...state, [action.payload.todolistId]: [newTask, ...state[action.payload.todolistId]]}
         }
         case "change_task_status": {
@@ -27,14 +38,6 @@ export const tasksReducer = (state: TasksState = initialState, action: Actions):
                 ...state,
                 [action.payload.todolistId]: state[action.payload.todolistId].map(task => task.id === action.payload.taskId ? {...task, title: action.payload.title} : task)
             }
-        }
-        case "create_todolist": {
-            return {...state, [action.payload.id]: []}
-        }
-        case "delete_todolist": {
-            const newState = {...state}
-            delete newState[action.payload.id]
-            return newState
         }
         default:
             return state
