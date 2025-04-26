@@ -19,16 +19,12 @@ import {
     changeTodolistTitleAC,
     createTodolistAC,
     deleteTodolistAC,
-    todolistsReducer
 } from "../model/todolists-reducer.ts";
-import {changeTaskStatusAC, changeTaskTitleAC, createTaskAC, deleteTaskAC, tasksReducer} from "../model/tasks-reducer.ts";
-import {useDispatch, useSelector} from "react-redux";
-import { RootState } from './store.ts';
+import {changeTaskStatusAC, changeTaskTitleAC, createTaskAC, deleteTaskAC} from "../model/tasks-reducer.ts";
 import {useAppDispatch} from "../common/hooks/useAppDispatch.ts";
 import {useAppSelector} from "../common/hooks/useAppSelector.ts";
 import { selectTodolists } from '../model/todolists-selectors.ts';
 import { selectTasks } from '../model/tasks-selectors.ts';
-import {nanoid} from "@reduxjs/toolkit";
 
 type ThemeMode = 'light' | 'dark'
 
@@ -38,10 +34,10 @@ export type Task = {
     isDone: boolean
 }
 
-export type TasksState = {
-    [key: string]: Task[]
-}
-// export type TasksState = Record<string, Task[]>
+// export type TasksState = {
+//     [key: string]: Task[]
+// }
+export type TasksState = Record<string, Task[]>
 
 export type FilterValues = 'all' | 'active' | 'completed'
 
@@ -53,8 +49,6 @@ export type Todolist = {
 }
 
 export const App = () => {
-    // const todolistId1 = nanoid();
-    // const todolistId2 = nanoid();
 
     const todolists = useAppSelector(selectTodolists)
     const tasks = useAppSelector(selectTasks)
@@ -152,7 +146,7 @@ export const App = () => {
                                 return (
                                     <Grid key={todolist.id}>
                                         <Paper elevation={4} sx={{p: '0 20px 20px 20px'}}>
-                                            <TodoListItem key={todolist.id}
+                                            <TodoListItem key={todolist.id} //убрать key
                                                           todolist={todolist}
                                                           tasks={filteredTasks}
 
@@ -163,7 +157,7 @@ export const App = () => {
                                                           changeTaskTitle={changeTaskTitle}
                                                           deleteTodolist={deleteTodolist}
                                                           changeTodolistTitle={changeTodolistTitle}
-                                                          // date={getCurrentDate}
+                                                          date={getCurrentDate()}
                                             />
                                         </Paper>
                                     </Grid>
