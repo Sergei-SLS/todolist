@@ -39,6 +39,3 @@ export const changeTodolistTitleAC = createAction<{id: string, title: string}>('
 
 export const changeTodolistFilterAC = createAction<{id: string, filter: FilterValues}>('todolists/changeTodolistFilter')
 
-
-export type DeleteTodolistAction = ReturnType<typeof deleteTodolistAC>
-export type CreateTodolistAction = ReturnType<typeof createTodolistAC>

@@ -1,6 +1,6 @@
 
 import type {Task, TasksState} from '../app/App.tsx'
-import {createTodolistAC, CreateTodolistAction, deleteTodolistAC, DeleteTodolistAction} from './todolists-reducer'
+import {createTodolistAC,  deleteTodolistAC} from './todolists-reducer'
 import {createReducer, nanoid} from "@reduxjs/toolkit";
 
 const initialState: TasksState = {}
@@ -70,5 +70,3 @@ type Actions =
     | CreateTaskAction
     | ChangeTaskStatusAction
     | ChangeTaskTitleAction
-    | CreateTodolistAction
-    | DeleteTodolistAction
