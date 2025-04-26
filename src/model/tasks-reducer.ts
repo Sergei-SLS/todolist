@@ -6,6 +6,9 @@ import {createAction, createReducer, nanoid} from "@reduxjs/toolkit";
 const initialState: TasksState = {}
 
 export const createTaskAC = createAction<{todolistId: string, title: string}>('task/createTask')
+export const deleteTaskAC = createAction<{todolistId: string, taskId: string}>('tasks/deleteTask')
+export const changeTaskStatusAC = createAction<{ todolistId: string, taskId: string, isDone: boolean}>('tasks/changeTaskStatus')
+export const changeTaskTitleAC = createAction<{todolistId: string, taskId: string, title: string}>('tasks/changeTaskTitle')
 
 export const tasksReducer = createReducer(initialState, builder => {
     builder
@@ -19,6 +22,17 @@ export const tasksReducer = createReducer(initialState, builder => {
             const {todolistId,  title} = action.payload
             const newTask: Task = {id: nanoid(), title, isDone: false}
             state[todolistId].push(newTask)
+        })
+        .addCase(deleteTaskAC, (state, action) => {
+            const {todolistId, taskId} = action.payload
+            state[todolistId] = state[todolistId].filter(task => task.id !==taskId)
+        })
+        .addCase(changeTaskStatusAC, (state, action) => {
+            const {todolistId, taskId, isDone} = action.payload
+            const task = state[todolistId].find(task => task.id === taskId)
+            if(task) {
+                task.isDone = isDone
+            }
         })
 })
 
@@ -51,7 +65,7 @@ export const tasksReducer2 = (state: TasksState = initialState, action: Actions)
     }
 }
 
-export const deleteTaskAC = createAction<{todolistId: string, taskId: string}>('tasks/deleteTask')
+
 
 // export const deleteTaskAC = (payload: { todolistId: string, taskId: string }) => {
 //     return {type: 'delete_task', payload} as const
@@ -59,17 +73,15 @@ export const deleteTaskAC = createAction<{todolistId: string, taskId: string}>('
 
 
 
-// export const createTaskAC = (payload: { todolistId: string, title: string }) => {
-//     return {type: 'create_task', payload} as const
+// export const changeTaskStatusAC = (payload: { todolistId: string, taskId: string, isDone: boolean }) => {
+//     return {type: 'change_task_status', payload} as const
 // }
 
-export const changeTaskStatusAC = (payload: { todolistId: string, taskId: string, isDone: boolean }) => {
-    return {type: 'change_task_status', payload} as const
-}
 
-export const changeTaskTitleAC = (payload: { todolistId: string, taskId: string, title: string }) => {
-    return {type: 'change_task_title', payload} as const
-}
+
+// export const changeTaskTitleAC = (payload: { todolistId: string, taskId: string, title: string }) => {
+//     return {type: 'change_task_title', payload} as const
+// }
 
 export type DeleteTaskAction = ReturnType<typeof deleteTaskAC>
 export type CreateTaskAction = ReturnType<typeof createTaskAC>
