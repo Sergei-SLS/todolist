@@ -146,7 +146,7 @@ export const App = () => {
                                 return (
                                     <Grid key={todolist.id}>
                                         <Paper elevation={4} sx={{p: '0 20px 20px 20px'}}>
-                                            <TodoListItem key={todolist.id} //убрать key
+                                            <TodoListItem
                                                           todolist={todolist}
                                                           tasks={filteredTasks}
 

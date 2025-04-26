@@ -43,7 +43,7 @@ test('correct todolist should be created', () => {
 
 test('correct todolist should change its title', () => {
     const title = 'New title'
-    const endState = todolistsReducer(startState, changeTodolistTitleAC( todolistId2, title))
+    const endState = todolistsReducer(startState, changeTodolistTitleAC( {id: todolistId2, title: title}))
 
     expect(endState[0].title).toBe('What to learn')
     expect(endState[1].title).toBe(title)
@@ -51,7 +51,7 @@ test('correct todolist should change its title', () => {
 
 test('correct todolist should change its filter', () => {
     const filter = 'completed'
-    const endState = todolistsReducer(startState, changeTodolistFilterAC(todolistId2, filter))
+    const endState = todolistsReducer(startState, changeTodolistFilterAC({id: todolistId2, filter: filter}))
 
     expect(endState[0].filter).toBe('all')
     expect(endState[1].filter).toBe(filter)
