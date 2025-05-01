@@ -27,6 +27,7 @@ import {selectTodolists} from '../model/todolists-selectors.ts';
 import {selectTasks} from '../model/tasks-selectors.ts';
 import {selectThemeMode} from "./app-selectors.ts";
 import {changeThemeModeAC} from "./app-reducer.ts";
+import {getTheme} from "../common/theme/theme.ts";
 
 
 export type Task = {
@@ -51,25 +52,13 @@ export type Todolist = {
 
 export const App = () => {
 
+    const themeMode = useAppSelector(selectThemeMode)
+    const theme = getTheme(themeMode)
+
     const todolists = useAppSelector(selectTodolists)
     const tasks = useAppSelector(selectTasks)
 
     const dispatch = useAppDispatch()
-
-    // const [todolists, dispatchToTodolists] = useReducer(todolistsReducer, [])
-    // const [tasks, dispatchToTasks] = useReducer(tasksReducer,{})
-
-    // const [themeMode, setThemeMode] = useState<ThemeMode>('light')
-    const themeMode = useAppSelector(selectThemeMode)
-
-    const theme = createTheme({
-        palette: {
-            mode: themeMode,
-            primary: {
-                main: '#087EA4',
-            },
-        },
-    })
 
     const changeMode = () => {
         dispatch(changeThemeModeAC({themeMode: themeMode === 'light' ? 'dark' : 'light'}))
