@@ -15,29 +15,16 @@ import {selectTasks} from "./model/tasks-selectors.ts";
 import {useAppDispatch} from "./common/hooks/useAppDispatch.ts";
 import {changeTaskStatusAC, changeTaskTitleAC, createTaskAC, deleteTaskAC} from "./model/tasks-reducer.ts";
 import {changeTodolistFilterAC, changeTodolistTitleAC, deleteTodolistAC} from "./model/todolists-reducer.ts";
+import {TodolistTitle} from "./TodolistTitle.tsx";
 
 type Props = {
     todolist: Todolist
     date?: string
-    // deleteTask: (todolistId: string, taskId: string) => void
-    // changeFilter: (todolistId: string, filter: FilterValues) => void
-    // createTask: (todolistId: string, title: string) => void
-    // changeTaskStatus: (todolistId: string, taskId: string, isDone: boolean) => void
-    // changeTaskTitle: (todolistId: string, taskId: string, title: string) => void
-    // deleteTodolist: (todolistId: string) => void
-    // changeTodolistTitle: (todolistId: string, title: string) => void
 }
 
 export const TodoListItem = ({
                                  todolist: {id, title, filter},
-                                 date,
-                                 // deleteTask,
-                                 // deleteTodolist,
-                                 // changeFilter,
-                                 // createTask,
-                                 // changeTaskStatus,
-                                 // changeTaskTitle,
-                                 // changeTodolistTitle
+                                 date
                              }: Props) => {
 
     const tasks = useAppSelector(selectTasks)
@@ -59,24 +46,9 @@ export const TodoListItem = ({
         dispatch(changeTodolistFilterAC({id, filter}))
     }
 
-    const deleteTodolist = () => {
-        dispatch(deleteTodolistAC({id}))
-    }
-
-    const changeTodolistTitle = (title: string) => {
-        dispatch(changeTodolistTitleAC({id, title}))
-    }
-
-
-
     return (
         <div>
-            <h3>
-                <EditableSpan value={title} onChange={changeTodolistTitle}/>
-            <IconButton onClick={deleteTodolist}>
-                <DeleteIcon/>
-            </IconButton>
-            </h3>
+            <TodolistTitle/>
             <CreateItemForm onCreateItem={createTask}/>
             {
                 filteredTasks.length === 0 ? (
