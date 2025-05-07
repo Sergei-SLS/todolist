@@ -16,6 +16,7 @@ import {useAppDispatch} from "./common/hooks/useAppDispatch.ts";
 import {changeTaskStatusAC, changeTaskTitleAC, createTaskAC, deleteTaskAC} from "./model/tasks-reducer.ts";
 import {changeTodolistFilterAC, changeTodolistTitleAC, deleteTodolistAC} from "./model/todolists-reducer.ts";
 import {TodolistTitle} from "./TodolistTitle.tsx";
+import { Tasks } from "./Tasks.tsx";
 
 type Props = {
     todolist: Todolist
@@ -27,16 +28,9 @@ export const TodoListItem = ({
                                  date
                              }: Props) => {
 
-    const tasks = useAppSelector(selectTasks)
+
     const dispatch = useAppDispatch()
-    const todolistTasks = tasks[id]
-    let filteredTasks = todolistTasks
-    if (filter === 'active') {
-        filteredTasks = todolistTasks.filter(task => !task.isDone)
-    }
-    if (filter === 'completed') {
-        filteredTasks = todolistTasks.filter(task => task.isDone)
-    }
+
 
     const createTask = (title: string) => {
         dispatch(createTaskAC({todolistId: id, title}))
@@ -48,46 +42,9 @@ export const TodoListItem = ({
 
     return (
         <div>
-            <TodolistTitle/>
+            <TodolistTitle todolist={todolist}/>
             <CreateItemForm onCreateItem={createTask}/>
-            {
-                filteredTasks.length === 0 ? (
-                    <p>Тасок нет</p>
-                ) : (
-                    <List>
-                        {filteredTasks.map(task => {
-                            const deleteTask = () => {
-                                dispatch(deleteTaskAC({todolistId: id, taskId: task.id}))
-                            }
-
-                            const changeTaskStatus = (e: ChangeEvent<HTMLInputElement>) => {
-                                const newStatusValue = e.currentTarget.checked
-                                dispatch(changeTaskStatusAC({todolistId: id, taskId: task.id, isDone: newStatusValue}))
-                            }
-
-                            const changeTaskTitle = (title: string) => {
-                                dispatch(changeTaskTitleAC({todolistId: id, taskId: task.id, title}))
-                            }
-
-                            return (
-                                <ListItem key={task.id}
-                                          sx={getListItemSX(task.isDone)}>
-                                    <div>
-                                        <Checkbox
-                                            checked={task.isDone}
-                                            onChange={changeTaskStatus}/>
-                                        <EditableSpan value={task.title}
-                                                      onChange={changeTaskTitle}/>
-                                    </div>
-                                    <IconButton onClick={deleteTask}>
-                                        <DeleteIcon/>
-                                    </IconButton>
-                                </ListItem>
-                            )
-                        })}
-                    </List>
-                )
-            }
+            <Tasks todolist={todolist}/>
 
             <Box sx={containerSx}>
                 <Button variant={filter === 'all' ? 'outlined' : 'text'}
