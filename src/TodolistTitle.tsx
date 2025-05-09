@@ -5,11 +5,9 @@ import {EditableSpan} from "./EditableSpan.tsx";
 import IconButton from "@mui/material/IconButton";
 import DeleteIcon from "@mui/icons-material/Delete";
 
-
 type Props = {
     todolist: Todolist
 }
-
 
 export const TodolistTitle = ({todolist}: Props) => {
     const {id, title} = todolist
