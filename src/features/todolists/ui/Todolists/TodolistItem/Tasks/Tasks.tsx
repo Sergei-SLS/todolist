@@ -1,8 +1,8 @@
-import {Todolist} from "./app/App.tsx";
+import {Todolist} from "../../../../../../app/App.tsx";
 import List from "@mui/material/List";
-import {useAppSelector} from "./common/hooks/useAppSelector.ts";
-import {selectTasks} from "./model/tasks-selectors.ts";
-import {TaskItem} from "./TaskItem.tsx";
+import {useAppSelector} from "../../../../../../common/hooks/useAppSelector.ts";
+import {selectTasks} from "../../../../model/tasks-selectors.ts";
+import {TaskItem} from "./TasksItem/TaskItem.tsx";
 
 type Props = {
     todolist: Todolist
@@ -22,7 +22,7 @@ export const Tasks = ({todolist}: Props) => {
     }
     return (
         <>
-            filteredTasks.length === 0 ? (
+            {filteredTasks.length === 0 ? (
             <p>Тасок нет</p>
             ) : (
             <List>
@@ -30,7 +30,7 @@ export const Tasks = ({todolist}: Props) => {
                     <TaskItem key={task.id} task={task} todolistId={id}/>
                 ))}
             </List>
-            )
+            )}
         </>
     )
 }

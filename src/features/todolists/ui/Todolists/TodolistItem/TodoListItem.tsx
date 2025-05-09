@@ -1,10 +1,10 @@
-import {Todolist} from "./app/App.tsx";
-import {CreateItemForm} from "./CreateItemForm.tsx";
-import {useAppDispatch} from "./common/hooks/useAppDispatch.ts";
-import {createTaskAC} from "./model/tasks-reducer.ts";
-import {TodolistTitle} from "./TodolistTitle.tsx";
-import {Tasks} from "./Tasks.tsx";
-import {FilterButtons} from "./FilterButtons.tsx";
+import {Todolist} from "../../../../../app/App.tsx";
+import {CreateItemForm} from "../../../../../common/components/CreateItemForm/CreateItemForm.tsx";
+import {useAppDispatch} from "../../../../../common/hooks/useAppDispatch.ts";
+import {createTaskAC} from "../../../model/tasks-reducer.ts";
+import {TodolistTitle} from "./TodolistTitle/TodolistTitle.tsx";
+import {Tasks} from "./Tasks/Tasks.tsx";
+import {FilterButtons} from "./FilterButtons/FilterButtons.tsx";
 
 type Props = {
     todolist: Todolist
