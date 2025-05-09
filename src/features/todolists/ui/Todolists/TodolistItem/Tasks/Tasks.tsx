@@ -1,6 +1,6 @@
-import {Todolist} from "../../../../../../app/App.tsx";
+import {Todolist} from "@/app/App.tsx";
 import List from "@mui/material/List";
-import {useAppSelector} from "../../../../../../common/hooks/useAppSelector.ts";
+import {useAppSelector} from "@/common/hooks/useAppSelector.ts";
 import {selectTasks} from "../../../../model/tasks-selectors.ts";
 import {TaskItem} from "./TasksItem/TaskItem.tsx";
 
